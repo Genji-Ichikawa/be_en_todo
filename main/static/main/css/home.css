@@ -1,0 +1,13 @@
+.home {
+  display: flex;
+  flex-direction: column;
+}
+
+.category_container {
+  margin: 0 auto;
+}
+
+.category_item {
+  width: 90vw;
+  text-align: center;
+}
