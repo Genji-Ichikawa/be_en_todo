@@ -1,0 +1,15 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block extra_style %}
+  <link rel="stylesheet"
+        type="text/css"
+        href="{% static 'main/css/todo_create.css' %}">
+{% endblock extra_style %}
+
+{% block content %}
+  <div class="home">
+    <h1>{{ category.name }}</h1>
+
+  </div>
+{% endblock content %}

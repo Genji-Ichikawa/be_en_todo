@@ -8,6 +8,7 @@
 }
 
 .category_item {
+  display: block;
   width: 90vw;
   text-align: center;
 }
