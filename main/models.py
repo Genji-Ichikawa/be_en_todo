@@ -25,7 +25,11 @@ class Todo(models.Model):
     hour_spent = models.IntegerField("所要時間数(h)", default=0)
     is_finished = models.BooleanField("完了済み", default=False)
     parent_todo = models.ForeignKey(
-        "self", on_delete=models.CASCADE, related_name="child_todo"
+        "self",
+        on_delete=models.CASCADE,
+        related_name="child_todo",
+        blank=True,
+        null=True,
     )
     rank = models.IntegerField(
         "階層の深さ",
