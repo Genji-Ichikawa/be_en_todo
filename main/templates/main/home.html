@@ -1,0 +1,20 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block extra_style %}
+  <link rel="stylesheet"
+        type="text/css"
+        href="{% static 'main/css/home.css' %}">
+{% endblock extra_style %}
+
+{% block content %}
+  <div class="home">
+    <div class="category_container">
+      {% for category in category_list %}
+      <a href="{% url "" %}" class="category_item">
+        {{ category.name }}
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock content %}
