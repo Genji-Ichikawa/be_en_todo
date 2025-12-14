@@ -1,4 +1,5 @@
 from django.contrib.auth import login
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
@@ -24,6 +25,12 @@ class SignUpView(CreateView):
         login(self.request, self.object)
         return response
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["has_prev_link"] = False
+        return context
+
+
 
 class LoginView(LoginView):
     authentication_form = LoginForm
@@ -34,7 +41,7 @@ class LogoutView(LogoutView):
     pass
 
 
-class CategoryListView(ListView):
+class CategoryListView(LoginRequiredMixin, ListView):
     template_name = "main/home.html"
     model = Category
     context_object_name = "category_list"
@@ -44,7 +51,7 @@ class CategoryListView(ListView):
         return queryset
 
 
-class TodoListView(ListView):
+class TodoListView(LoginRequiredMixin, ListView):
     template_name = "main/todo_list.html"
     model = Todo
     context_object_name = "todo_list"
@@ -69,7 +76,7 @@ class TodoListView(ListView):
     # category作成機能はここにつける
 
 
-class TodoCreateView(CreateView):
+class TodoCreateView(LoginRequiredMixin, CreateView):
     form_class = TodoCreateForm
     model = Todo
     template_name = "main/todo_create.html"
@@ -90,7 +97,7 @@ class TodoCreateView(CreateView):
         return context
 
 
-class TodoDetailView(DetailView):
+class TodoDetailView(LoginRequiredMixin, DetailView):
     model = Todo
     template_name = "main/todo_detail.html"
     pk_url_kwarg = "todo_id"
@@ -101,7 +108,7 @@ class TodoDetailView(DetailView):
         return context
 
 
-class TodoUpdateView(UpdateView):
+class TodoUpdateView(LoginRequiredMixin, UpdateView):
     form_class = TodoUpdateForm
     model = Todo
     template_name = "main/todo_update.html"
@@ -123,7 +130,7 @@ class TodoUpdateView(UpdateView):
         return context
 
 
-class TodoDeleteView(DeleteView):
+class TodoDeleteView(LoginRequiredMixin, DeleteView):
     model = Todo
     pk_url_kwarg = "todo_id"
 
@@ -138,3 +145,4 @@ class TodoDeleteView(DeleteView):
         context["category_id"] = self.kwargs["category_id"]
         context["todo_id"] = self.kwargs["todo_id"]
         return context
+

@@ -1,4 +1,4 @@
-{% load static %}
+{% load static custom_tags %}
 
 <!DOCTYPE html>
 <html lang="ja">
@@ -18,15 +18,17 @@
 
     {% block header %}
       <header class="header">
-        <div class="header-container">
-          <div class="header-container__item">
-            <a href="" class="header-item__link">
-              <div class="header-item__icon">
-                <i class="fas fa-arrow-left"></i>
-              </div>
-            </a>
+        {% if not request.resolver_match.url_name|in_list:'login,signup,logout,home' %}
+          <div class="header-container">
+            <div class="header-container__item">
+              <a href="" class="header-item__link">
+                <div class="header-item__icon">
+                  <i class="fas fa-arrow-left"></i>
+                </div>
+              </a>
+            </div>
           </div>
-        </div>
+        {% endif %}
         <div class="header-container__title">BeEn_todo</div>
       </header>
     {% endblock header %}
