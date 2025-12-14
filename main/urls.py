@@ -24,8 +24,9 @@ urlpatterns = [
         name="todo_update",
     ),
     path(
-        "category/<int:category_id>/todo/<int:todo_id>/delete/",
+        "category/<int:category_id>/todo/<int:todo_id>/delete",
         views.TodoDeleteView.as_view(),
         name="todo_delete",
     ),
+    path("calendar", views.CalendarView.as_view(), name="calendar"),
 ]

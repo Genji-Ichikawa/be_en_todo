@@ -1,0 +1,19 @@
+.link-container {
+  margin-bottom: 10px;
+}
+
+.weekday-sun {
+  color: red;
+}
+
+.weekday-sat {
+  color: blue;
+}
+
+.today {
+  background-color: #ffeb3b;
+  font-weight: bold;
+}
+.day--other-month {
+  color: #ccc;
+}

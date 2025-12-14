@@ -1,13 +1,18 @@
+import calendar
+from datetime import datetime
+
 from django.contrib.auth import login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
+from django.utils import timezone
 from django.views.generic import (
     CreateView,
     DeleteView,
     DetailView,
     ListView,
+    TemplateView,
     UpdateView,
 )
 
@@ -29,7 +34,6 @@ class SignUpView(CreateView):
         context = super().get_context_data(**kwargs)
         context["has_prev_link"] = False
         return context
-
 
 
 class LoginView(LoginView):
@@ -146,3 +150,50 @@ class TodoDeleteView(LoginRequiredMixin, DeleteView):
         context["todo_id"] = self.kwargs["todo_id"]
         return context
 
+
+class CalendarView(TemplateView):
+    template_name = "main/calendar.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        today = timezone.localdate()
+        year = int(self.request.GET.get("year", today.year))
+        month = int(self.request.GET.get("month", today.month))
+        selected_day = self.request.GET.get("day")
+
+        calendar_weeks = self.get_month_calendar(year, month)
+        context["calendar_weeks"] = calendar_weeks
+        context["year"] = year
+        context["month"] = month
+        context["today"] = today
+
+        if month == 1:
+            prev_year, prev_month = year - 1, 12
+        else:
+            prev_year, prev_month = year, month - 1
+
+        if month == 12:
+            next_year, next_month = year + 1, 1
+        else:
+            next_year, next_month = year, month + 1
+
+        context["prev_year"] = prev_year
+        context["prev_month"] = prev_month
+        context["next_year"] = next_year
+        context["next_month"] = next_month
+
+        todos = None
+        if selected_day:
+            day_date = datetime.strptime(selected_day, "%Y-%m-%d").date()
+            todos = Todo.objects.filter(
+                deadline_time__date=day_date, category__user=self.request.user
+            )
+        context["selected_day"] = selected_day
+        context["todos"] = todos
+
+        return context
+
+    def get_month_calendar(self, year, month):
+        cal = calendar.Calendar(firstweekday=6)  # 日曜始まり
+        return cal.monthdatescalendar(year, month)
