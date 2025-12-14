@@ -33,6 +33,25 @@ a:visited {
   margin-right: auto;
 }
 
+.header-container__item {
+  display: flex;
+  position: relative;
+  width: 50%;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  color: #9b9b9b;
+}
+
+.header-item__icon {
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 25px;
+}
+
 .header-container__title {
   position: absolute;
   top: 0;
@@ -47,6 +66,7 @@ a:visited {
 }
 
 .main {
+  margin: 0 8px;
   padding-top: 64px;
 }
 

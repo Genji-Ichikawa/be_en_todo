@@ -8,8 +8,14 @@
 {% endblock extra_style %}
 
 {% block content %}
-  <div class="home">
-    <h1>{{ category.name }}</h1>
-
+  <div class="todo-create">
+    {# <h1>{{ category.name }}</h1> #}
+    <form action="{% url "todo_create" category_id %}" method="post">
+      {% csrf_token %}
+      <table>
+        {{ form.as_table }}
+      </table>
+      <input type="submit" value="作成">
+    </form>
   </div>
 {% endblock content %}

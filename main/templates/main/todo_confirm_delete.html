@@ -1,0 +1,19 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block extra_style %}
+  <link rel="stylesheet"
+        type="text/css"
+        href="{% static 'main/css/todo_confirm_delete.css' %}">
+{% endblock extra_style %}
+
+{% block content %}
+  <div class="todo-delete">
+    <h2>「{{ object.title }}」を削除しますか？</h2>
+    <form method="post">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-danger">削除する</button>
+      <a href="{% url 'todo_detail' category_id todo_id %}" class="">キャンセル</a>
+    </form>
+  </div>
+{% endblock content %}

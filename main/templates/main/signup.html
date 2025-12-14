@@ -22,7 +22,7 @@
           {% for error in field.errors %}<p>{{ error }}</p>{% endfor %}
         {% endfor %}
       {% endif %}
-      <a href="javascript:signup_form.submit()" class="link">確定</a>
+      <button type="submit" class="link">確定</button>
     </form>
     <a href="{% url 'login' %}" class="link">戻る</a>
   </div>

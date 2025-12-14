@@ -1,0 +1,17 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block extra_style %}
+  <link rel="stylesheet"
+        type="text/css"
+        href="{% static 'main/css/todo_detail.css' %}">
+{% endblock extra_style %}
+
+{% block content %}
+  <div class="todo-detail">
+    <h1>{{ todo.title }}</h1>
+    <a href="{% url "todo_update" category_id todo.id %}">編集</a>
+    <div class="">{{ todo.description|linebreaks }}</div>
+    <p>締め切り: {{ todo.deadline_time|date:"Y/m/j H:i:s" }}</p>
+  </div>
+{% endblock content %}

@@ -29,7 +29,8 @@
         {{ form.password }}
         {{ form.password.errors }}
       </div>
-      <a href="javascript:login_form.submit()" class="link">ログイン</a>
+      {% comment %} <a href="javascript:login_form.submit()" class="link">ログイン</a> {% endcomment %}
+      <button type="submit" class="link">ログイン</button>
     </form>
     <a href="{% url 'signup' %}" class="link">会員登録</a>
   </div>

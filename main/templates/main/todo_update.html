@@ -1,0 +1,20 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block extra_style %}
+  <link rel="stylesheet"
+        type="text/css"
+        href="{% static 'main/css/todo_update.css' %}">
+{% endblock extra_style %}
+
+{% block content %}
+  <div class="todo-update">
+    <form method="post">
+      {% csrf_token %}
+      <table>
+        {{ form.as_table }}
+      </table>
+      <input type="submit" value="更新">
+    </form>
+  </div>
+{% endblock content %}

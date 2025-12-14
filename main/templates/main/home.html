@@ -10,9 +10,11 @@
 {% block content %}
   <div class="home">
     <h1>カテゴリー</h1>
-    <div class="category_container">
+    <div class="category-container">
       {% for category in category_list %}
-        <a href="{% url "todo_list" category.id %}" class="category_item">{{ category.name }}</a>
+        <div class="category-item">
+          <a href="{% url "todo_list" category.id %}" class="category_link">{{ category.name }}</a>
+        </div>
       {% endfor %}
     </div>
   </div>

@@ -8,8 +8,14 @@
 {% endblock extra_style %}
 
 {% block content %}
-  <div class="home">
+  <div class="todo-list">
     <h1>{{ category.name }}</h1>
-    
+    <a href="{% url "todo_create" category.id %}" class="todo_create_button">新規作成</a>
+    <div class="todo_container">
+      {% for todo in todo_list %}
+        <a href="{% url "todo_detail" category.id todo.id %}" class="todo_item">{{ todo.title }}</a>
+        <a href="{% url "todo_delete" category.id todo.id %}">削除</a>
+      {% endfor %}
+    </div>
   </div>
 {% endblock content %}

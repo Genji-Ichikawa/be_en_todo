@@ -20,6 +20,11 @@
   font-size: 16px;
 }
 
+button {
+  padding: 0;
+  border: none;
+}
+
 .link {
   width: 20vw;
   height: 7vh;
@@ -31,4 +36,5 @@
   background-color: #e0ffff;
   border-bottom: solid 2px #87ceeb;
   border-right: solid 2px #87ceeb;
+  cursor: pointer;
 }
