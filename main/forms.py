@@ -23,6 +23,13 @@ class TodoCreateForm(forms.ModelForm):
             "deadline_time",
             "parent_todo",
         )
+        widgets = {
+            "deadline_time": forms.DateTimeInput(
+                attrs={
+                    "type": "datetime-local",
+                }
+            ),
+        }
 
 
 class TodoUpdateForm(forms.ModelForm):
@@ -36,3 +43,13 @@ class TodoUpdateForm(forms.ModelForm):
             "is_finished",
             "parent_todo",
         )
+        widgets = {
+            "deadline_time": forms.DateTimeInput(
+                attrs={"type": "datetime-local"},
+                # format="%Y-%m-%dT%H:%M",
+            ),
+        }
+
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
+    #     self.fields["deadline_time"].input_formats = ["%Y-%m-%dT%H:%M"]

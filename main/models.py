@@ -37,7 +37,7 @@ class Todo(models.Model):
     )
 
     def __str__(self):
-        return self.title(self.category.name)
+        return f"{self.title} ({self.category.name})"
 
     class Meta:
         constraints = [

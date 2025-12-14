@@ -2,7 +2,13 @@ from django.contrib.auth import login
 from django.contrib.auth.views import LoginView, LogoutView
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, DetailView, ListView, UpdateView
+from django.views.generic import (
+    CreateView,
+    DeleteView,
+    DetailView,
+    ListView,
+    UpdateView,
+)
 
 from main.forms import LoginForm, SignUpForm, TodoCreateForm, TodoUpdateForm
 from main.models import Category, Todo
@@ -41,6 +47,7 @@ class CategoryListView(ListView):
 class TodoListView(ListView):
     template_name = "main/todo_list.html"
     model = Todo
+    context_object_name = "todo_list"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -55,11 +62,11 @@ class TodoListView(ListView):
     def get_queryset(self):
         queryset = super().get_queryset()
         category_id = self.kwargs["category_id"]
-        queryset.filter(category__id=category_id)
+        queryset = queryset.filter(category=category_id)
         return queryset
 
     # memo
-    # todo作成機能はここにつける
+    # category作成機能はここにつける
 
 
 class TodoCreateView(CreateView):
@@ -67,28 +74,67 @@ class TodoCreateView(CreateView):
     model = Todo
     template_name = "main/todo_create.html"
 
+    def form_valid(self, form):
+        form.instance.category_id = self.kwargs["category_id"]
+        return super().form_valid(form)
+
     def get_success_url(self):
-        reverse_lazy(
+        return reverse_lazy(
             "todo_list",
             kwargs={"category_id": self.kwargs["category_id"]},
         )
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["category_id"] = self.kwargs["category_id"]
+        return context
+
 
 class TodoDetailView(DetailView):
     model = Todo
-    template_name = "main/todo.html"
+    template_name = "main/todo_detail.html"
+    pk_url_kwarg = "todo_id"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["category_id"] = self.kwargs["category_id"]
+        return context
 
 
 class TodoUpdateView(UpdateView):
     form_class = TodoUpdateForm
     model = Todo
     template_name = "main/todo_update.html"
+    pk_url_kwarg = "todo_id"
 
     def get_success_url(self):
-        reverse_lazy(
+        return reverse_lazy(
             "todo_detail",
             kwargs={
                 "category_id": self.kwargs["category_id"],
                 "todo_id": self.kwargs["todo_id"],
             },
         )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["category_id"] = self.kwargs["category_id"]
+        context["todo_id"] = self.kwargs["todo_id"]
+        return context
+
+
+class TodoDeleteView(DeleteView):
+    model = Todo
+    pk_url_kwarg = "todo_id"
+
+    def get_success_url(self):
+        return reverse_lazy(
+            "todo_list",
+            kwargs={"category_id": self.kwargs["category_id"]},
+        )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["category_id"] = self.kwargs["category_id"]
+        context["todo_id"] = self.kwargs["todo_id"]
+        return context
