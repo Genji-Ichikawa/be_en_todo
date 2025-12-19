@@ -183,7 +183,7 @@ class CalendarView(TemplateView):
         context["next_year"] = next_year
         context["next_month"] = next_month
 
-        todos = None
+        todos = Todo.objects.none()
         if selected_day:
             day_date = datetime.strptime(selected_day, "%Y-%m-%d").date()
             todos = Todo.objects.filter(

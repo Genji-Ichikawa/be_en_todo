@@ -7,6 +7,10 @@
         href="{% static 'main/css/todo_list.css' %}">
 {% endblock extra_style %}
 
+{% block prev_url %}
+  {% url "home" %}
+{% endblock prev_url %}
+
 {% block content %}
   <div class="todo-list">
     <h1>{{ category.name }}</h1>

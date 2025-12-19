@@ -17,3 +17,7 @@
 .day--other-month {
   color: #ccc;
 }
+
+.day-link {
+  display: block;
+}

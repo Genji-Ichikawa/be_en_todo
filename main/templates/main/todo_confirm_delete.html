@@ -7,6 +7,10 @@
         href="{% static 'main/css/todo_confirm_delete.css' %}">
 {% endblock extra_style %}
 
+{% block prev_url %}
+  {% url "todo_list" category_id %}
+{% endblock prev_url %}
+
 {% block content %}
   <div class="todo-delete">
     <h2>「{{ object.title }}」を削除しますか？</h2>

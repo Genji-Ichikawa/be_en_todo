@@ -32,11 +32,11 @@
             {% if day.month == month %}
               {% if day == today %}
                 <td class="today">
-                  <a href="?year={{ year }}&month={{ month }}&day={{ day|date:'Y-m-d' }}">{{ day.day }}</a>
+                  <a href="?year={{ year }}&month={{ month }}&day={{ day|date:'Y-m-d' }}" class="day-link">{{ day.day }}</a>
                 </td>
               {% else %}
                 <td>
-                  <a href="?year={{ year }}&month={{ month }}&day={{ day|date:'Y-m-d' }}">{{ day.day }}</a>
+                  <a href="?year={{ year }}&month={{ month }}&day={{ day|date:'Y-m-d' }}" class="day-link">{{ day.day }}</a>
                 </td>
               {% endif %}
             {% else %}
