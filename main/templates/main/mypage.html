@@ -1,0 +1,19 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block extra_style %}
+  <link rel="stylesheet"
+        type="text/css"
+        href="{% static "main/css/mypage.css" %}">
+{% endblock extra_style %}
+
+{% block content %}
+  <h1>{{ request.user.username }}さんのマイページ</h1>
+  <form action="{% url "logout" %}" method="post">
+    {% csrf_token %}
+    <button type="submit">ログアウト</button>
+  </form>
+  <hr>
+  <h2>カテゴリごとの経過時間</h2>
+  <div>{{ graph|safe }}</div>
+{% endblock content %}

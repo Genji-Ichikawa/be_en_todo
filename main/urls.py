@@ -29,4 +29,5 @@ urlpatterns = [
         name="todo_delete",
     ),
     path("calendar", views.CalendarView.as_view(), name="calendar"),
+    path("mypage", views.MypageView.as_view(), name="mypage"),
 ]

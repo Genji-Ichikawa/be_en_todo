@@ -4,6 +4,7 @@ from datetime import datetime
 from django.contrib.auth import login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
+from django.db.models import Sum
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.utils import timezone
@@ -15,6 +16,7 @@ from django.views.generic import (
     TemplateView,
     UpdateView,
 )
+from plotly import graph_objs, offline
 
 from main.forms import LoginForm, SignUpForm, TodoCreateForm, TodoUpdateForm
 from main.models import Category, Todo
@@ -197,3 +199,32 @@ class CalendarView(TemplateView):
     def get_month_calendar(self, year, month):
         cal = calendar.Calendar(firstweekday=6)  # 日曜始まり
         return cal.monthdatescalendar(year, month)
+
+
+class MypageView(LoginRequiredMixin, TemplateView):
+    template_name = "main/mypage.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+
+        categories = Category.objects.filter(user=user).annotate(
+            total_hours=Sum("todos__hour_spent")
+        )
+        category_names = [c.name for c in categories]
+        total_hours = [c.total_hours for c in categories]
+
+        bar = graph_objs.Bar(x=category_names, y=total_hours)
+        layout = graph_objs.Layout(
+            title="カテゴリごとの経過時間(h)",
+            xaxis=dict(title="カテゴリ"),
+            yaxis=dict(
+                title="経過時間(h)",
+                rangemode="tozero",
+            ),
+        )
+        fig = graph_objs.Figure(data=[bar], layout=layout)
+        graph_div = offline.plot(fig, auto_open=False, output_type="div")
+
+        context["graph"] = graph_div
+        return context
