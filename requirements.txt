@@ -1,4 +1,7 @@
 asgiref==3.11.0
 Django==5.2.9
+narwhals==2.14.0
+packaging==25.0
+plotly==6.5.0
 sqlparse==0.5.4
 typing_extensions==4.15.0
