@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 
-from main.models import Category, Todo, User
+from main.models import Todo, User
 
 
 class SignUpForm(UserCreationForm):
@@ -21,7 +21,6 @@ class TodoCreateForm(forms.ModelForm):
             "title",
             "description",
             "deadline_time",
-            "parent_todo",
         )
         widgets = {
             "deadline_time": forms.DateTimeInput(
@@ -41,7 +40,6 @@ class TodoUpdateForm(forms.ModelForm):
             "deadline_time",
             "hour_spent",
             "is_finished",
-            "parent_todo",
         )
         widgets = {
             "deadline_time": forms.DateTimeInput(
