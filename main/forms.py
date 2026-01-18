@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 
-from main.models import Todo, User
+from main.models import Category, Todo, User
 
 
 class SignUpForm(UserCreationForm):
@@ -12,6 +12,12 @@ class SignUpForm(UserCreationForm):
 
 class LoginForm(AuthenticationForm):
     pass
+
+
+class CategoryCreateForm(forms.ModelForm):
+    class Meta:
+        model = Category
+        fields = ("name",)
 
 
 class TodoCreateForm(forms.ModelForm):

@@ -18,7 +18,13 @@ from django.views.generic import (
 )
 from plotly import graph_objs, offline
 
-from main.forms import LoginForm, SignUpForm, TodoCreateForm, TodoUpdateForm
+from main.forms import (
+    CategoryCreateForm,
+    LoginForm,
+    SignUpForm,
+    TodoCreateForm,
+    TodoUpdateForm,
+)
 from main.models import Category, Todo
 
 
@@ -47,14 +53,24 @@ class LogoutView(LogoutView):
     pass
 
 
-class CategoryListView(LoginRequiredMixin, ListView):
+class HomeView(LoginRequiredMixin, CreateView):
     template_name = "main/home.html"
     model = Category
-    context_object_name = "category_list"
+    form_class = CategoryCreateForm
+    success_url = reverse_lazy("home")
 
-    def get_queryset(self):
-        queryset = Category.objects.filter(user=self.request.user).order_by("name")
-        return queryset
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["category_list"] = Category.objects.filter(
+            user=self.request.user
+        ).order_by("name")
+        return context
+
+    def form_valid(self, form):
+        category = form.save(commit=False)
+        category.user = self.request.user
+        category.save()
+        return super().form_valid(form)
 
 
 class TodoListView(LoginRequiredMixin, ListView):
@@ -77,9 +93,6 @@ class TodoListView(LoginRequiredMixin, ListView):
         category_id = self.kwargs["category_id"]
         queryset = queryset.filter(category=category_id)
         return queryset
-
-    # memo
-    # category作成機能はここにつける
 
 
 class TodoCreateView(LoginRequiredMixin, CreateView):

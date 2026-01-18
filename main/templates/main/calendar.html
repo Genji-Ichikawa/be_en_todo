@@ -52,7 +52,7 @@
     <h2>{{ selected_day }} のTodo</h2>
     {% if todos %}
       <ul>
-        {% for todo in todos %}<li>{{ todo.title }}（{{ todo.deadline_time|date:"H:i" }}）</li>{% endfor %}
+        {% for todo in todos %}<li><a href="{% url "todo_detail" todo.category.id todo.id %}">{{ todo.title }}（{{ todo.deadline_time|date:"H:i" }}）</a></li>{% endfor %}
       </ul>
     {% else %}
       <p>この日に締切のTodoはありません。</p>

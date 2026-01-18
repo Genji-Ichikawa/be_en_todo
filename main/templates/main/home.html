@@ -16,6 +16,11 @@
           <a href="{% url "todo_list" category.id %}" class="category_link">{{ category.name }}</a>
         </div>
       {% endfor %}
+      <form action="" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="作成">
+      </form>
     </div>
   </div>
 {% endblock content %}
